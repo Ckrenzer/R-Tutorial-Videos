@@ -25,18 +25,25 @@ knitr::opts_chunk$set(echo = TRUE,
 if(!require(pacman)) install.pacakges("pacman")
 pacman::p_load(ggplot2, tibble)
 
+# Setting the ggplot theme
+theme_set(theme_dark())
+
 ```
 
 
 
 
 
-# Cumulative Distribution Functions
+# Cumulative Distribution Functions (CDF)
 
-Before anyone is ready to explore survival functions, we should know what a cumulative distribution unction is...
+Before anyone is ready to explore survival functions, we should know what a cumulative distribution function is...
+
+## Probability Distribution Functions (PDF)
+
+But before anyone is ready to learn about cumulative distribution functions, he or she must first learn about probability density functions!
 
 
-```{r exponential}
+```{r exponential, results = "show"}
 
 set.seed(2021)
 exponential <- rexp(n = 10000, rate = 0.5)
@@ -51,20 +58,49 @@ ggplot() +
 ```
 
 
+The above graph is what the exponential distribution approximately looks like. The PDF for the exponential distribution has **parameters** specifying the distribution's behavior. You can think of these parameters the same way you think of the arguments passed to a function in R--you provide inputs and the function spits outputs back out. It's the same idea with probability functions. They are called functions for a reason!
+
+It is important to note, however, that the exponential distribution is a **continuous** distribution, meaning the probability of landing on any given probability is zero. To reiterate with an example, the probability of the exponential random value being *exactly* five is zero. The value could be 5.000000001 or 4.99999999872--there are an infinite number of possibilities. Therefore, we need a way to measure the probability of an exponential random variable, no? That's where the cumulative distribution function comes in!
+
+###### NOTE: the probability of landing on an exact value within the domain of a **discrete** distribution is non-zero, and can actually be quite large. We are not going to concern ourselves with these considerations here today.
+
+
+The *Law of Total Probability* states that probabilities for all outcomes in the non-trivial (non-zero) support **must** sum to 1 for the distribution to be an Honest-to-God probability density function. In other words, the 'area under the curve' (the integral from 0 to infinity of the exponential distribution function in our case) in the graph above must sum to one.
+
+Let's confirm that the PDF sums to 1:
+
+
 ```{r cdf}
 
 proportions <- exponential / sum(x = exponential)
-sum(proportions)
+cat(sum(proportions))
+
+# Fun fact: the Expectation of this distribution with a rate of 0.5 is 1/0.5-->2!
+
+```
+
+We just proved the exponential distribution is an honest-to-God probability density function!
+
+Now, back to the cumulative distribution function. The cumulative distribution function can be thought of as the probability that a random variable will be **less than** a specified value. In other words, it is the **sum** of all probabilities of the outcomes from the lower bound up until the specified value.
+
+For example, the probability that the exponential random variable will be less than 3 can be easily calculated by taking the integral (think of the integral as a sum for our purposes) from 0 (the exponential distribution's lower bound) to 3. We can do that with special functions (or simply by taking the integral of the PDF) that will give us the true probability, but we don't care about probability--we like statistics! Let's calculate the probability of being less than three using our random numbers.
+
+```{r P(X < 3)}
+
+vals_less_than_3 <- proportions[exponential < 3]
+
+cat(sum(vals_less_than_3))
 
 ```
 
 
+Approximately 44.3% of the distribution is less than 3! But how much of the distribution is greater than 3?
 
-We just proved the exponential distribution we had right there is an honest-to-God probability density function!
-
-
-
+###### NOTE: Remember, we do not **really** have to care about the probability of being exactly three in our calculations because we are using a continuous random variable--the probability of being exactly three is zero.
 
 
 
+# Survival
+
+Now that you have the context behind the PDF and the CDF, you are ready to be introduced to the survival function!
 
