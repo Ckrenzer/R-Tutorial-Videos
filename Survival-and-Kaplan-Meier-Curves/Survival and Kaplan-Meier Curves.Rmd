@@ -93,7 +93,7 @@ Approximately 44.3% of the distribution is less than 3! But how much of the dist
 
 # Survival
 
-If you answered the question above, you probably subtracted the .443 from 1 and determined that the probability of being *greater* than 3 is `r cat(1 - .443)`. That's precisely what a survival function is--the probability that a random value is greater than some specified value.
+If you answered the question above, you probably subtracted the .443 from 1 and determined that the probability of being *greater* than 3 is 0.557. That's precisely what a survival function is--the probability that a random value is greater than some specified value.
 
 Now that you have the context behind the PDF and the CDF, you are ready to be introduced to the survival function!
 
