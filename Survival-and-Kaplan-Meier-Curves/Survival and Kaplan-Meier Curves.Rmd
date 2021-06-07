@@ -64,6 +64,7 @@ It is important to note, however, that the exponential distribution is a **conti
 
 ###### NOTE: the probability of landing on an exact value within the domain of a **discrete** distribution is non-zero, and can actually be quite large. We are not going to concern ourselves with these considerations here today.
 
+## Law of Total Probability
 
 The *Law of Total Probability* states that probabilities for all outcomes in the non-trivial (non-zero) support **must** sum to 1 for the distribution to be an Honest-to-God probability density function. In other words, the 'area under the curve' (the integral from 0 to infinity of the exponential distribution function in our case) in the graph above must sum to one.
 
@@ -102,5 +103,25 @@ Approximately 44.3% of the distribution is less than 3! But how much of the dist
 
 # Survival
 
+If you answered the question above, you probably subtracted the .443 from 1 and determined that the probability of being **greater** than 3 is `r cat(1 - .443)`. That's precisely what a survival function is--the probability that a random value is greater than some specified value.
+
 Now that you have the context behind the PDF and the CDF, you are ready to be introduced to the survival function!
+
+In all cases, $ Survival = S(x) = 1 - CDF $. Some distributions do not have a closed-form CDF (and hence, no closed-from survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
+
+-   It is 1 minus the CDF.
+
+-   It is the probability of a random variable being greater than some specified value. In mathematical notation, $ S(x) = P(X \ge x) $.
+
+
+
+# Kaplan-Meier Curves
+
+## Putting Things Into Context
+
+
+
+
+
+
 
