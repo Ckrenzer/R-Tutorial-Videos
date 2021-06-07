@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # PACKAGES
 if(!require(pacman)) install.pacakges("pacman")
-pacman::p_load(ggplot2, tibble)
+pacman::p_load(ggplot2, dplyr, tidyr)
 
 # Setting the ggplot theme
 theme_set(theme_dark())
@@ -133,4 +133,57 @@ We have to get creative.
 
 ## The Kaplan-Meier Estimator
 
-The Kaplan-Meier estimator is one such way to approximate the survival function.
+The Kaplan-Meier estimator is one such way to approximate the survival function. It shows the probability of an event at a given time interval. If the sample size is large enough, the Kaplan-Meier Curve will closely match the true survival function.
+
+
+###### NOTE: For the exponential random variable, you could imagine the value of 3 being a time measured in minutes. That may help you establish the fact that survival is often associated with time--though it really depends on the kind of question you're asking.
+
+
+The Kaplan-Meier curve has the proportion of observations still 'Alive' (the starting status) on the y-axis and time on the x-axis. As more people 'die' (move to the ending status) over time, the proportion of people still 'Alive' decreases.
+
+In a nutshell, you can think of the Kaplan-Meier curve follows the following logic:
+
+-   There are two statuses--Dead or Alive (or some other binary outcome).
+
+-   Everyone starts the time period in the same status--Alive.
+
+-   People's status will move from Alive to Dead over time. As they do, a lower proportion of patients are still Alive and the estimator will update to make points on the graph reflecting any changes.
+
+
+## Example
+
+You can see what one of these curves looks like below.
+
+```{r Kaplan-Meier Curve}
+
+# 1 means 'Alive' and 0 means 'Dead'
+
+person1 <- c(1, 1, 1, 1, 0)
+person2 <- c(1, 0, 0, 0, 0)
+person3 <- c(1, 1, 1, 0, 0)
+person4 <- c(1, 1, 0, 0, 0)
+
+years <- c(0, 1, 2, 3, 4)
+
+study_data <- tibble(person1, person2, person3, person4, years)
+
+study_data <- study_data %>% 
+  pivot_longer(cols = person1:person4, names_to = "patient", values_to = "status") %>% 
+  group_by(years) %>% 
+  summarize(number_alive = sum(status)) %>% 
+  mutate(proportion_alive = number_alive / max(number_alive))
+
+
+ggplot(study_data) +
+  geom_step(mapping = aes(x = years, y = proportion_alive), col = "orange") +
+  ggtitle("Oversimplified Kaplan-Meier Curve") +
+  ylab("Survival Probability") +
+  xlab("Years")
+
+```
+
+The probability someone in this study survived more than one year is 0.75. With more observations, you might be able to accurately gauge the distribution your survival function approximates.
+
+## Closing Thoughts
+
+I did not cover much of the math directly relating to the Kaplan-Meier estimator, nor did I cover the roles confidence intervals and censored data play in the evaluation of these curves. This guide was meant as a high-level introduction into the material without getting overly technical.
