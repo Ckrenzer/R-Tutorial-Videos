@@ -9,14 +9,14 @@ editor_options:
 
 This was written under R version 4.1.0
 
-```{r setup-packages, echo = FALSE}
+```{r setup-packages, echo = FALSE, message = FALSE}
 
 #If you do not know what this does, do not worry.
 #You can kindly ignore this chunk of code.
 knitr::opts_chunk$set(echo = TRUE,
                       include = TRUE,
-                      results = "hide",
-                      error = TRUE,
+                      results = "show",
+                      error = FALSE,
                       warning = FALSE,
                       message = FALSE,
                       eval = TRUE)
@@ -30,10 +30,6 @@ theme_set(theme_dark())
 
 ```
 
-
-
-
-
 # Cumulative Distribution Functions (CDF)
 
 Before anyone is ready to explore survival functions, we should know what a cumulative distribution function is...
@@ -42,8 +38,7 @@ Before anyone is ready to explore survival functions, we should know what a cumu
 
 But before anyone is ready to learn about cumulative distribution functions, he or she must first learn about probability density functions!
 
-
-```{r exponential, results = "show"}
+```{r exponential}
 
 set.seed(2021)
 exponential <- rexp(n = 10000, rate = 0.5)
@@ -57,7 +52,6 @@ ggplot() +
 
 ```
 
-
 The above graph is what the exponential distribution approximately looks like (it should be a line graph if we want to be proper). The PDF for the exponential distribution has **parameters** specifying the distribution's behavior. You can think of these parameters the same way you think of the arguments passed to a function in R--you provide inputs and the function spits outputs back out. It's the same idea with probability functions. They are called functions for a reason!
 
 It is important to note, however, that the exponential distribution is a **continuous** distribution, meaning the probability of landing on any given probability is zero. To reiterate with an example, the probability of the exponential random value being *exactly* five is zero. The value could be 5.000000001 or 4.99999999872--there are an infinite number of possibilities. Therefore, we need a way to measure the probability of an exponential random variable, no? That's where the cumulative distribution function comes in!
@@ -66,23 +60,22 @@ It is important to note, however, that the exponential distribution is a **conti
 
 ## Law of Total Probability
 
-The *Law of Total Probability* states that probabilities for all outcomes in the non-trivial (non-zero) support **must** sum to 1 for the distribution to be an Honest-to-God probability density function. In other words, the 'area under the curve' (the integral from 0 to infinity of the exponential distribution function in our case) in the graph above must sum to one.
+The **Law of Total Probability** states that probabilities for all outcomes in the non-trivial (non-zero) support *must* sum to 1 for the distribution to be an Honest-to-God probability density function. In other words, the 'area under the curve' (the integral from 0 to infinity of the exponential distribution function in our case) of the graph above must sum to one.
 
 Let's confirm that the PDF sums to 1:
-
 
 ```{r cdf}
 
 proportions <- exponential / sum(x = exponential)
 cat(sum(proportions))
 
-# Fun fact: the Expectation of this distribution with a rate of 0.5 is 1/0.5-->2!
+# Fun fact: the Expectation of this distribution having a rate of 0.5 is 1/0.5-->2!
 
 ```
 
 We just proved the exponential distribution is an honest-to-God probability density function!
 
-Now, back to the cumulative distribution function. The cumulative distribution function can be thought of as the probability that a random variable will be **less than** a specified value. In other words, it is the **sum** of all probabilities of the outcomes from the lower bound up until the specified value.
+Now, back to the cumulative distribution function. The cumulative distribution function can be thought of as the probability that a random variable will be *less than* a specified value. In other words, it is the *sum* of all probabilities of the outcomes from the lower bound up until the specified value.
 
 For example, the probability that the exponential random variable will be less than 3 can be easily calculated by taking the integral (think of the integral as a sum for our purposes) from 0 (the exponential distribution's lower bound) to 3. We can do that with special functions (or simply by taking the integral of the PDF) that will give us the true probability, but we don't care about probability--we like statistics! Let's calculate the probability of being less than three using our random numbers.
 
@@ -94,26 +87,21 @@ cat(sum(vals_less_than_3))
 
 ```
 
-
 Approximately 44.3% of the distribution is less than 3! But how much of the distribution is greater than 3?
 
-###### NOTE: Remember, we do not **really** have to care about the probability of being exactly three in our calculations because we are using a continuous random variable--the probability of being exactly three is zero.
-
-
+###### NOTE: Remember, we do not *really* have to care about the probability of being exactly three in our calculations because we are using a continuous random variable--the probability of being exactly three is zero.
 
 # Survival
 
-If you answered the question above, you probably subtracted the .443 from 1 and determined that the probability of being **greater** than 3 is `r cat(1 - .443)`. That's precisely what a survival function is--the probability that a random value is greater than some specified value.
+If you answered the question above, you probably subtracted the .443 from 1 and determined that the probability of being *greater* than 3 is `r cat(1 - .443)`. That's precisely what a survival function is--the probability that a random value is greater than some specified value.
 
 Now that you have the context behind the PDF and the CDF, you are ready to be introduced to the survival function!
 
-In all cases, $ Survival = S(x) = 1 - CDF = 1 - P(X \le x) $. Some distributions do not have a closed-form CDF (and hence, no closed-from survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
+In all cases, $Survival = S(x) = 1 - CDF = 1 - P(X \le x)$. Some distributions do not have a closed-form CDF (and hence, no closed-from survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
 
 -   It is 1 minus the CDF.
 
--   It is the probability of a random variable being greater than some specified value. In mathematical notation, $ S(x) = P(X \ge x) $.
-
-
+-   It is the probability of a random variable being greater than some specified value. In mathematical notation, $S(x) = P(X \ge x)$.
 
 # Kaplan-Meier Curves
 
@@ -123,21 +111,17 @@ I'm no mathematician (or am I?), but there a high likelihood that you came here 
 
 When we talk about survival, it is often in the context of the medical field. You will hear people say things like "What is the probability someone lives *longer* than five years after undergoing treatment X?" The word longer was put in bold because you can interchange it with the word *greater*, and you can easily then recognize that this is a question about the survival function.
 
-
 ## The Problem With Survival Functions
 
 Up until this point, all distributions we've discussed were given--the distribution from the graph is an exponential distribution. What do we do when we do not know the underlying distribution? How can we find the survival function in those cases?
 
 We have to get creative.
 
-
 ## The Kaplan-Meier Estimator
 
 The Kaplan-Meier estimator is one such way to approximate the survival function. It shows the probability of an event at a given time interval. If the sample size is large enough, the Kaplan-Meier Curve will closely match the true survival function.
 
-
 ###### NOTE: For the exponential random variable, you could imagine the value of 3 being a time measured in minutes. That may help you establish the fact that survival is often associated with time--though it really depends on the kind of question you're asking.
-
 
 The Kaplan-Meier curve has the proportion of observations still 'Alive' (the starting status) on the y-axis and time on the x-axis. As more people 'die' (move to the ending status) over time, the proportion of people still 'Alive' decreases.
 
@@ -148,7 +132,6 @@ In a nutshell, you can think of the Kaplan-Meier curve follows the following log
 -   Everyone starts the time period in the same status--Alive.
 
 -   People's status will move from Alive to Dead over time. As they do, a lower proportion of patients are still Alive and the estimator will update to make points on the graph reflecting any changes.
-
 
 ## Example
 
