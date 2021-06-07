@@ -58,7 +58,7 @@ ggplot() +
 ```
 
 
-The above graph is what the exponential distribution approximately looks like. The PDF for the exponential distribution has **parameters** specifying the distribution's behavior. You can think of these parameters the same way you think of the arguments passed to a function in R--you provide inputs and the function spits outputs back out. It's the same idea with probability functions. They are called functions for a reason!
+The above graph is what the exponential distribution approximately looks like (it should be a line graph if we want to be proper). The PDF for the exponential distribution has **parameters** specifying the distribution's behavior. You can think of these parameters the same way you think of the arguments passed to a function in R--you provide inputs and the function spits outputs back out. It's the same idea with probability functions. They are called functions for a reason!
 
 It is important to note, however, that the exponential distribution is a **continuous** distribution, meaning the probability of landing on any given probability is zero. To reiterate with an example, the probability of the exponential random value being *exactly* five is zero. The value could be 5.000000001 or 4.99999999872--there are an infinite number of possibilities. Therefore, we need a way to measure the probability of an exponential random variable, no? That's where the cumulative distribution function comes in!
 
@@ -107,7 +107,7 @@ If you answered the question above, you probably subtracted the .443 from 1 and 
 
 Now that you have the context behind the PDF and the CDF, you are ready to be introduced to the survival function!
 
-In all cases, $ Survival = S(x) = 1 - CDF $. Some distributions do not have a closed-form CDF (and hence, no closed-from survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
+In all cases, $ Survival = S(x) = 1 - CDF = 1 - P(X \le x) $. Some distributions do not have a closed-form CDF (and hence, no closed-from survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
 
 -   It is 1 minus the CDF.
 
@@ -119,9 +119,18 @@ In all cases, $ Survival = S(x) = 1 - CDF $. Some distributions do not have a cl
 
 ## Putting Things Into Context
 
+I'm no mathematician (or am I?), but there a high likelihood that you came here to learn about the Kaplan-Meier Curve instead of read a bunch of nonsense about probability functions. The nonsense about probability functions was important to be able to understand just what it is we are talking about when we mean 'survival'. I apologize for the lack of brevity.
+
+When we talk about survival, it is often in the context of the medical field. You will hear people say things like "What is the probability someone lives *longer* than five years after undergoing treatment X?" The word longer was put in bold because you can interchange it with the word *greater*, and you can easily then recognize that this is a question about the survival function.
 
 
+## The Problem With Survival Functions
+
+Up until this point, all distributions we've discussed were given--the distribution from the graph is an exponential distribution. What do we do when we do not know the underlying distribution? How can we find the survival function in those cases?
+
+We have to get creative.
 
 
+## The Kaplan-Meier Estimator
 
-
+The Kaplan-Meier estimator is one such way to approximate the survival function.
