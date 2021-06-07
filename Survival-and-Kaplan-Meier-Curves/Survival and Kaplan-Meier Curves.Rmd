@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-This was written under R version 4.1.0
+This was written under R version 4.1.0.
 
 ```{r setup-packages, echo = FALSE, message = FALSE}
 
@@ -32,11 +32,11 @@ theme_set(theme_dark())
 
 # Cumulative Distribution Functions (CDF)
 
-Before anyone is ready to explore survival functions, we should know what a cumulative distribution function is...
+Before you are ready to explore survival functions, you should know what a cumulative distribution function is...
 
 ## Probability Distribution Functions (PDF)
 
-But before anyone is ready to learn about cumulative distribution functions, he or she must first learn about probability density functions!
+But before you are ready to learn about cumulative distribution functions, you must first learn about probability density functions!
 
 ```{r exponential}
 
@@ -52,11 +52,11 @@ ggplot() +
 
 ```
 
-The above graph is what the exponential distribution approximately looks like (it should be a line graph if we want to be proper). The PDF for the exponential distribution has **parameters** specifying the distribution's behavior. You can think of these parameters the same way you think of the arguments passed to a function in R--you provide inputs and the function spits outputs back out. It's the same idea with probability functions. They are called functions for a reason!
+The above graph is what the exponential distribution approximately looks like (it should be a line graph if we want to be proper). The PDF for the exponential distribution has **parameters** specifying the distribution's behavior. You can think of parameters the same way you think of the arguments passed to a function in R--you provide inputs and the function spits back output--it's the same idea with probability functions. They are called functions for a reason!
 
 It is important to note, however, that the exponential distribution is a **continuous** distribution, meaning the probability of landing on any given probability is zero. To reiterate with an example, the probability of the exponential random value being *exactly* five is zero. The value could be 5.000000001 or 4.99999999872--there are an infinite number of possibilities. Therefore, we need a way to measure the probability of an exponential random variable, no? That's where the cumulative distribution function comes in!
 
-###### NOTE: the probability of landing on an exact value within the domain of a **discrete** distribution is non-zero, and can actually be quite large. We are not going to concern ourselves with these considerations here today.
+###### NOTE: the probability of landing on an exact value within the domain of a **discrete** distribution is non-zero, and can actually be quite large. We are not going to concern ourselves with these considerations here today. Further, there are many other use cases for a cumulative distribution function than the simple 'we need it to measure probability in continuous distributions!' problem.
 
 ## Law of Total Probability
 
@@ -131,11 +131,11 @@ In a nutshell, you can think of the Kaplan-Meier curve follows the following log
 
 -   Everyone starts the time period in the same status--Alive.
 
--   People's status will move from Alive to Dead over time. As they do, a lower proportion of patients are still Alive and the estimator will update to make points on the graph reflecting any changes.
+-   People's status will move from Alive to Dead over time. As they do, a lower proportion of patients are still Alive and the estimator will update to make points on the graph reflect any changes.
 
 ## Example
 
-You can see what one of these curves looks like below.
+You can see an example of a Kaplan-Meier curve below.
 
 ```{r Kaplan-Meier Curve}
 
@@ -169,4 +169,4 @@ The probability someone in this study survived more than one year is 0.75. With 
 
 ## Closing Thoughts
 
-I did not cover much of the math directly relating to the Kaplan-Meier estimator, nor did I cover the roles confidence intervals and censored data play in the evaluation of these curves. This guide was meant as a high-level introduction into the material without getting overly technical.
+I did not cover much of the math directly involved in the Kaplan-Meier estimator, nor did I cover the roles confidence intervals and censored data play in the evaluation of these curves. This guide was meant as a high-level introduction into the material without getting overly technical.
