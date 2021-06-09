@@ -97,7 +97,7 @@ If you answered the question above, you probably subtracted the .443 from 1 and 
 
 Now that you have the context behind the PDF and the CDF, you are ready to be introduced to the survival function!
 
-In all cases, $Survival = S(x) = 1 - CDF = 1 - P(X \le x)$. Some distributions do not have a closed-form CDF (and hence, no closed-from survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
+In all cases, $Survival = S(x) = 1 - CDF = 1 - P(X \le x)$. Some distributions do not have a closed-form CDF (and hence, no closed-form survival function! The normal distribution is one such example.), but probabilists all over the world have come up with workarounds to these problems. For our purposes, just know that the survival function satisfies the following:
 
 -   It is 1 minus the CDF.
 
