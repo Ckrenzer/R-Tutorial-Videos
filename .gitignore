@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# We don't need the Rmd for this cluttering our repo!
+Survival-and-Kaplan-Meier-Curves/Base R Distribution Functions.Rmd
