@@ -172,11 +172,20 @@ pre code {
 
 <div id="TOC">
 <ul>
+<li><a href="#function-forms">Function Forms</a>
+<ul>
+<li><a href="#pdf-values-dfunction">PDF VALUES (<code>dFUNCTION</code>)</a></li>
+<li><a href="#cdf-values-pfunction">CDF VALUES (<code>pFUNCTION()</code>)</a></li>
+<li><a href="#quantile-values-inverse-cdf-qfunction">QUANTILE VALUES / INVERSE CDF (<code>qFUNCTION()</code>)</a></li>
+</ul></li>
+<li><a href="#distributions">Distributions</a>
+<ul>
 <li><a href="#beta">BETA</a></li>
 <li><a href="#binomial">BINOMIAL</a></li>
 <li><a href="#cauchy">CAUCHY</a></li>
 <li><a href="#chi-squared">CHI-SQUARED</a></li>
 <li><a href="#exponential">EXPONENTIAL</a></li>
+<li><a href="#f">F</a></li>
 <li><a href="#gamma">GAMMA</a></li>
 <li><a href="#geometric">GEOMETRIC</a></li>
 <li><a href="#hypergeometric">HYPERGEOMETRIC</a></li>
@@ -189,84 +198,113 @@ pre code {
 <li><a href="#weibull">WEIBULL</a></li>
 <li><a href="#wilcox">WILCOX</a></li>
 <li><a href="#uniform">UNIFORM</a></li>
+</ul></li>
 </ul>
 </div>
 
-<div id="notes" class="section level3">
-<h3>Notes</h3>
-<p><code>rFUNCTION()</code>: Generates random deviates (<strong>random numbers</strong>).</p>
-<p><code>dFUNCTION()</code>: Gives the <strong>density function</strong> (PDF).</p>
-<p><code>pFUNCTION()</code>: Gives the <strong>cumulative distribution</strong> (CDF).</p>
-<p><code>qFUNCTION()</code>: Gives the <strong>quantile function</strong> (inverse CDF).</p>
-<p><strong>num_rand</strong> denotes the number of random numbers you would like to generate.</p>
+<div id="function-forms" class="section level1">
+<h1>Function Forms</h1>
+<div id="pdf-values-dfunction" class="section level2">
+<h2>PDF VALUES (<code>dFUNCTION</code>)</h2>
+<p>Functions of the form <code>dFUNCTION()</code> return the value of the PDF (the function value) of the distribution given a certain random variable <em>x</em>.</p>
+<pre class="r"><code># Ex:
+dnorm(c(-2, -1, 0, 1, 2), mean = 0, sd = 1, log = FALSE)</code></pre>
+<pre><code>## [1] 0.05399097 0.24197072 0.39894228 0.24197072 0.05399097</code></pre>
 </div>
-<div id="beta" class="section level1">
-<h1>BETA</h1>
+<div id="cdf-values-pfunction" class="section level2">
+<h2>CDF VALUES (<code>pFUNCTION()</code>)</h2>
+<p>Functions of the form <code>pFUNCTION()</code> return the value of the CDF of the distribution given a certain random variable <em>q</em> (the quantile).</p>
+<p>Set <code>lower.tail = FALSE</code> for survival.</p>
+<pre class="r"><code># EX:
+# finding the probabilities of z-scores
+pnorm(q = c(-2, -1, 0, 1, 2), mean = 0, sd = 1)</code></pre>
+<pre><code>## [1] 0.02275013 0.15865525 0.50000000 0.84134475 0.97724987</code></pre>
+<pre class="r"><code>pnorm(q = c(-2, -1, 0, 1, 2), mean = 0, sd = 1, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.97724987 0.84134475 0.50000000 0.15865525 0.02275013</code></pre>
+</div>
+<div id="quantile-values-inverse-cdf-qfunction" class="section level2">
+<h2>QUANTILE VALUES / INVERSE CDF (<code>qFUNCTION()</code>)</h2>
+<p>Functions of the form <code>qFUNCTION()</code> return the value of the inverse cumulative density function (CDF) of the distribution given a certain random variable <em>p</em> (the probability).</p>
+<pre class="r"><code># for a normal distribution, you can use it to find z-scores
+qnorm(p = c(.025, .5, .975), mean = 0, sd = 1)</code></pre>
+<pre><code>## [1] -1.959964  0.000000  1.959964</code></pre>
+</div>
+</div>
+<div id="distributions" class="section level1">
+<h1>Distributions</h1>
+<p>Functions starting with <em>r</em> generate random deviates (random numbers) and otherwise have the same parameters as the function forms described above.</p>
+<div id="beta" class="section level2">
+<h2>BETA</h2>
 <p><code>rbeta(num_rand, shape1 = alpha, shape2 = beta)</code></p>
 </div>
-<div id="binomial" class="section level1">
-<h1>BINOMIAL</h1>
+<div id="binomial" class="section level2">
+<h2>BINOMIAL</h2>
 <p><code>rbinom(num_rand, n, p)</code></p>
 </div>
-<div id="cauchy" class="section level1">
-<h1>CAUCHY</h1>
+<div id="cauchy" class="section level2">
+<h2>CAUCHY</h2>
 <p><code>rcauchy(num_rand, location, scale)</code></p>
 </div>
-<div id="chi-squared" class="section level1">
-<h1>CHI-SQUARED</h1>
+<div id="chi-squared" class="section level2">
+<h2>CHI-SQUARED</h2>
 <p><code>rchisq(num_rand, degrees_of_freedom)</code></p>
 </div>
-<div id="exponential" class="section level1">
-<h1>EXPONENTIAL</h1>
+<div id="exponential" class="section level2">
+<h2>EXPONENTIAL</h2>
 <p><code>rexp(num_rand, rate = lambda)</code></p>
 </div>
-<div id="gamma" class="section level1">
-<h1>GAMMA</h1>
+<div id="f" class="section level2">
+<h2>F</h2>
+<p><code>rf(num_rand, degrees_of_freedom1, degrees_of_freedom2)</code></p>
+</div>
+<div id="gamma" class="section level2">
+<h2>GAMMA</h2>
 <p><code>rgamma(num_rand, shape = alpha, scale = beta)</code></p>
 </div>
-<div id="geometric" class="section level1">
-<h1>GEOMETRIC</h1>
+<div id="geometric" class="section level2">
+<h2>GEOMETRIC</h2>
 <p><code>rgeom(num_rand, p)</code></p>
 </div>
-<div id="hypergeometric" class="section level1">
-<h1>HYPERGEOMETRIC</h1>
+<div id="hypergeometric" class="section level2">
+<h2>HYPERGEOMETRIC</h2>
 <p><code>rhyper(num_rand, m = subset_of_interest, n = total - subset_of_interest, k = num_selections)</code></p>
 </div>
-<div id="logistic" class="section level1">
-<h1>LOGISTIC</h1>
+<div id="logistic" class="section level2">
+<h2>LOGISTIC</h2>
 <p><code>rlogis(num_rand, location, scale)</code></p>
 </div>
-<div id="lognormal" class="section level1">
-<h1>LOGNORMAL</h1>
+<div id="lognormal" class="section level2">
+<h2>LOGNORMAL</h2>
 <p><code>rlnorm(num_rand, meanlog = log(mu), sdlog = log(sigma))</code> <strong>NOTE: sigma is NOT variance!!!</strong></p>
 </div>
-<div id="multinomial" class="section level1">
-<h1>MULTINOMIAL</h1>
+<div id="multinomial" class="section level2">
+<h2>MULTINOMIAL</h2>
 <p><code>rmultinom(num_rand, size, probability_vector)</code></p>
 </div>
-<div id="negative-binomial" class="section level1">
-<h1>NEGATIVE BINOMIAL</h1>
+<div id="negative-binomial" class="section level2">
+<h2>NEGATIVE BINOMIAL</h2>
 <p><code>rnbinom(num_rand, size = num_successes, p)</code></p>
 </div>
-<div id="normal" class="section level1">
-<h1>NORMAL</h1>
+<div id="normal" class="section level2">
+<h2>NORMAL</h2>
 <p><code>rnorm(num_rand, mu, sigma)</code> <strong>NOTE: sigma is NOT variance!!!</strong></p>
 </div>
-<div id="poisson" class="section level1">
-<h1>POISSON</h1>
+<div id="poisson" class="section level2">
+<h2>POISSON</h2>
 <p><code>rpois(num_rand, lambda)</code></p>
 </div>
-<div id="weibull" class="section level1">
-<h1>WEIBULL</h1>
+<div id="weibull" class="section level2">
+<h2>WEIBULL</h2>
 <p><code>rweibull(num_rand, shape = parameter, scale)</code></p>
 </div>
-<div id="wilcox" class="section level1">
-<h1>WILCOX</h1>
+<div id="wilcox" class="section level2">
+<h2>WILCOX</h2>
 <p><code>rwilcox(num_rand, num_in_first_sample, num_in_second_sample)</code></p>
 </div>
-<div id="uniform" class="section level1">
-<h1>UNIFORM</h1>
+<div id="uniform" class="section level2">
+<h2>UNIFORM</h2>
 <p><code>runif(num_rand, min, max)</code></p>
+</div>
 </div>
 
 
